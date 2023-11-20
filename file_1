@@ -1,0 +1,88 @@
+package com.example;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class AmazonSignInTest {
+
+    private WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        // Assuming you have the ChromeDriver executable in your project or system path
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+        driver = new ChromeDriver();
+    }
+
+    @Test
+    public void signInWithValidCredentials() {
+        // Navigate to the Amazon sign-in page
+        driver.get("https://www.amazon.com");
+
+        // Click on the sign-in link
+        WebElement signInLink = driver.findElement(By.id("nav-link-accountList"));
+        signInLink.click();
+
+        // Using individual parameters for valid credentials
+        enterSignInDetails("your_email@example.com", "YourStrongPassword");
+
+        // Click the sign-in button
+        WebElement signInButton = driver.findElement(By.id("signInSubmit"));
+        signInButton.click();
+
+        // Verify successful sign-in
+        WebElement welcomeMessage = driver.findElement(By.xpath("//span[text()='Hello, Your Name']"));
+        Assert.assertTrue(welcomeMessage.isDisplayed(), "Sign-in was not successful.");
+    }
+
+    @Test
+    public void signInWithInvalidCredentials() {
+        // Navigate to the Amazon sign-in page
+        driver.get("https://www.amazon.com");
+
+        // Click on the sign-in link
+        WebElement signInLink = driver.findElement(By.id("nav-link-accountList"));
+        signInLink.click();
+
+        // Using individual parameters for invalid credentials
+        enterSignInDetails("invalid_email", "WrongPassword");
+
+        // Click the sign-in button
+        WebElement signInButton = driver.findElement(By.id("signInSubmit"));
+        signInButton.click();
+
+        // Verify error message for invalid credentials
+        WebElement errorMessage = driver.findElement(By.id("auth-error-message-box"));
+        Assert.assertTrue(errorMessage.isDisplayed(), "Error message for invalid credentials is not displayed.");
+    }
+
+    @AfterClass
+    public void tearDown() {
+        // Close the browser
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    // Using inheritance for a base class
+    private void enterSignInDetails(String email, String password) {
+        WebElement emailField = driver.findElement(By.id("ap_email"));
+        WebElement passwordField = driver.findElement(By.id("ap_password"));
+
+        // Using runtime polymorphism to handle exceptions
+        try {
+            // Enter details in the fields
+            emailField.sendKeys(email);
+            passwordField.sendKeys(password);
+        } catch (Exception e) {
+            // Handle exceptions (e.g., NoSuchElementException, NullPointerException)
+            System.out.println("Exception occurred: " + e.getMessage());
+        }
+    }
+}
