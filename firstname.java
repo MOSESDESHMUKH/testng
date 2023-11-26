@@ -91,3 +91,32 @@ public static void findMostSoldProduct() {
         }
     }
 
+
+public static void createTables() {
+        try (Connection connection = DatabaseConnection.connect();
+             Statement statement = connection.createStatement()) {
+
+            // Create Order Table
+            String createOrderTableQuery = "CREATE TABLE IF NOT EXISTS OrderTable (orderId INT, productName VARCHAR(255), price DOUBLE)";
+            statement.execute(createOrderTableQuery);
+
+            // Create Customer Table
+            String createCustomerTableQuery = "CREATE TABLE IF NOT EXISTS CustomerTable (customerId INT, customerName VARCHAR(255), region VARCHAR(255))";
+            statement.execute(createCustomerTableQuery);
+
+            // Create Sales Table
+            String createSalesTableQuery = "CREATE TABLE IF NOT EXISTS SalesTable (" +
+                    "productName VARCHAR(255), " +
+                    "region VARCHAR(255), " +
+                    "quantity INT, " +
+                    "FOREIGN KEY (productName) REFERENCES OrderTable(productName), " +
+                    "FOREIGN KEY (region) REFERENCES CustomerTable(region))";
+            statement.execute(createSalesTableQuery);
+
+            System.out.println("Tables created successfully.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
