@@ -53,3 +53,22 @@ public static void findDuplicateRecords() {
         }
     }
 
+ public static void findProductWithMaxPrice() {
+        try (Connection connection = DatabaseConnection.connect();
+             Statement statement = connection.createStatement()) {
+
+            // Example: Find the product with the maximum price in OrderTable
+            String maxPriceProductQuery = "SELECT * FROM OrderTable WHERE price = (SELECT MAX(price) FROM OrderTable)";
+            ResultSet resultSet = statement.executeQuery(maxPriceProductQuery);
+
+            System.out.println("Product with Max Price:");
+            while (resultSet.next()) {
+                System.out.println("Product Name: " + resultSet.getString("productName"));
+                System.out.println("Price: " + resultSet.getDouble("price"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
