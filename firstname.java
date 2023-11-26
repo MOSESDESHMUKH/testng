@@ -120,3 +120,5 @@ public static void createTables() {
         }
     }
 
+//Missing index for constraint 'salestable_ibfk_1' in the referenced table 'ordertable'
+
