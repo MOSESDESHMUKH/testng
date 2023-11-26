@@ -12,3 +12,25 @@ public class UniqueFirstNames {
         }
     }
 }
+
+public class LastNameGenerator {
+    public static String[] generateUniqueLastNames() {
+        return new String[]{
+            "Smith", "Johnson", "Williams", "Brown", "Jones",
+            "Miller", "Davis", "García", "Rodriguez", "Martinez",
+            "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson",
+            "Thomas", "Taylor", "Moore", "Clark", "Lewis"
+        };
+    }
+
+    public static void main(String[] args) {
+        String[] uniqueLastNames = generateUniqueLastNames();
+
+        // Print the generated last names
+        System.out.println("Generated Unique Last Names:");
+        for (String lastName : uniqueLastNames) {
+            System.out.println(lastName);
+        }
+    }
+}
+
