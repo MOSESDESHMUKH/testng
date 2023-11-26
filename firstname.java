@@ -121,4 +121,5 @@ public static void createTables() {
     }
 
 //Missing index for constraint 'salestable_ibfk_1' in the referenced table 'ordertable'
+//You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INDEX idx_productName (productName))' at line 1
 
