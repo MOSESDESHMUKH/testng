@@ -72,3 +72,22 @@ public static void findDuplicateRecords() {
         }
     }
 
+public static void findMostSoldProduct() {
+        try (Connection connection = DatabaseConnection.connect();
+             Statement statement = connection.createStatement()) {
+
+            // Example: Find the most sold product in SalesTable
+            String mostSoldProductQuery = "SELECT productName, SUM(quantity) AS totalSold FROM SalesTable GROUP BY productName ORDER BY totalSold DESC LIMIT 1";
+            ResultSet resultSet = statement.executeQuery(mostSoldProductQuery);
+
+            System.out.println("Most Sold Product:");
+            while (resultSet.next()) {
+                System.out.println("Product Name: " + resultSet.getString("productName"));
+                System.out.println("Total Sold: " + resultSet.getInt("totalSold"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
