@@ -34,3 +34,22 @@ public class LastNameGenerator {
     }
 }
 
+public static void findDuplicateRecords() {
+        try (Connection connection = DatabaseConnection.connect();
+             Statement statement = connection.createStatement()) {
+
+            // Example: Find duplicate records in OrderTable based on productName
+            String duplicateRecordsQuery = "SELECT productName, COUNT(*) FROM OrderTable GROUP BY productName HAVING COUNT(*) > 1";
+            ResultSet resultSet = statement.executeQuery(duplicateRecordsQuery);
+
+            System.out.println("Duplicate records in OrderTable:");
+            while (resultSet.next()) {
+                System.out.println("Product Name: " + resultSet.getString("productName"));
+                System.out.println("Count: " + resultSet.getInt(2));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
